@@ -1,0 +1,11 @@
+lib\CoreCaseTest.class
+tests\suites\TestSuite.class
+tests\SpringBootTest.class
+lib\ui\RotationPageObject.class
+lib\ui\ArticlePageObject.class
+lib\ui\SearchPageObject.class
+lib\ui\MainPageObject.class
+tests\ArticleTests.class
+lib\ui\BackgroundPageObject.class
+tests\OrientationTests.class
+tests\SearchTests.class

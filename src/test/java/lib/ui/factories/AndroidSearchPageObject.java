@@ -4,11 +4,13 @@ import io.appium.java_client.AppiumDriver;
 import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static lib.ui.MainPageObject.*;
 import static org.openqa.selenium.By.id;
 
-public class AndroidSearchPageObject extends SearchPageObject {
+public class AndroidSearchPageObject  {
 
         private static final String
                 SEARCH_INIT_ELEMENT = "css:button#SearchIcon",
@@ -22,18 +24,8 @@ public class AndroidSearchPageObject extends SearchPageObject {
                 TITLE_PRESENCE = "org.wikipedia:id/view_page_title_text",
                 ITEM_CONTAINER_PRESENCE = "css:ul.page-list>li.page-summary";
 
-    public AndroidSearchPageObject(RemoteWebDriver driver) {
-        super(driver);
-    }
 
 
-//    public void SearchPageObject(RemoteWebDriver driver) {
-//        super(driver);
-//    }
-
-//    public void MvSearchPageObject(RemoteWebDriver driver) {
-//            super();
-//        }
 
         public static void initSearchInput() {
             waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "cannot find the locator", 5);

@@ -1,43 +1,25 @@
 package lib;
-import junit.framework.TestCase;
 import lib.ui.ArticlePageObject;
+//import lib.ui.Platform;
 import lib.ui.SearchPageObject;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import java.net.URL;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-public class CoreCaseTest extends TestCase {
-    protected RemoteWebDriver driver;
-    private static String url = "http://127.0.0.1:4723/wd/hub";
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("deviceName", "emulator-5554");
-        capabilities.setCapability("platformVersion", "8");
-        capabilities.setCapability("automationName", "Appium");
-        capabilities.setCapability("appPackage", "org.wikipedia");
-        capabilities.setCapability("appActivity", ".main.MainActivity");
-        capabilities.setCapability("app", "C:/Users/kalekseenko/JavaAppiumAutomation/apks/org.wikipedia.apk");
+public class CoreCaseTest  {
+    public ChromeDriver driver;
+    private static String URL = "http://127.0.0.1:4723/wd/hub";
 
-        driver = new AndroidDriver(new URL(url), capabilities);
-    }
 
-    @Override
-    protected  void tearDown() throws Exception {
-        driver.quit();
-        super.tearDown();
-    }
+
     @Test
     public void testSaveArticlesToMyListDeleteAndCheckTitles() {
-        SearchPageObject searchPageObject = new SearchPageObject((AppiumDriver) driver);
-        ArticlePageObject articlePageObject = new ArticlePageObject((AppiumDriver) driver);
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.searchInput("Appium");
         SearchPageObject.seeResultAndClick();
@@ -63,5 +45,11 @@ public class CoreCaseTest extends TestCase {
 
     }
 
+//    protected void openWikiWebPageForMobileWeb(){
+//        if (Platform.getInstance().isMV()) {
+//            driver.get("https://en.m.wikipedia.org");
+//        } else {
+//            System.out.println("Method openWikiWebPageForMobileWeb() does nothing for platform " + Platform.getInstance());
+//        }
+    }
 
-}

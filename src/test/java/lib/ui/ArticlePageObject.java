@@ -1,13 +1,12 @@
 package lib.ui;
 
+import static lib.ui.MainPageObject.waitForElementAndClick;
 import static org.openqa.selenium.By.id;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-public class ArticlePageObject extends MainPageObject {
+public class ArticlePageObject {
 
 
     private static final String
@@ -22,10 +21,9 @@ public class ArticlePageObject extends MainPageObject {
             SECOND_ARTICLE = "//*[@text='Appius Claudius Caecus']",
             FIRST_ARTICLE = "//*[@text='Appium']";
 
-
-    public ArticlePageObject(RemoteWebDriver driver) {
-        super((AppiumDriver) driver);
+    public ArticlePageObject(ChromeDriver driver) {
     }
+
 
     public static void clickMoreOptionsButton() {
         waitForElementAndClick(

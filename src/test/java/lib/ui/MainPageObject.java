@@ -1,8 +1,11 @@
 package lib.ui;
 
+import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -13,11 +16,11 @@ import io.appium.java_client.TouchAction;
 
 
 public class MainPageObject {
-    protected static AppiumDriver driver;
+public static ChromeDriver driver;
 
-    public MainPageObject(AppiumDriver driver) {
-        this.driver = driver;
-    }
+public MainPageObject(ChromeDriver driver) {
+    MainPageObject.driver = driver;
+}
 
     public static WebElement waitForElement(By by, String error_message, int i) {
         WebDriverWait wait = new WebDriverWait(driver, i);
@@ -86,48 +89,48 @@ public class MainPageObject {
     }
 
 
-  public static void swipeUp(int timeOfSwipe) {
-        if (driver instanceof AppiumDriver) {
+    public static void swipeUp(int timeOfSwipe) {
+//        if (driver instanceof AppiumDriver) {
 
-            TouchAction action = new TouchAction((AppiumDriver) driver);
+            TouchAction action = new TouchAction((PerformsTouchActions) driver);
             Dimension size = driver.manage().window().getSize();
             int x = size.width / 2;
             int start_y = (int) (size.height * 0.8);
             int end_y = (int) (size.height * 0.2);
+          action.tap(PointOption.point(x, start_y)).waitAction().moveTo(PointOption.point(x, end_y)).release().perform();
 
-            action.press(x, start_y).waitAction().moveTo(x, end_y).release().perform();
         }
-    }
 
-  public static void swipeUpQuick() {
-        if (driver instanceof AppiumDriver) {
+
+    public static void swipeUpQuick() {
+//        if (driver instanceof AppiumDriver) {
 
             swipeUp(200);
         }
-    }
 
-protected static void swipeUpElement(By by, String error_message, int max_swipes) {
-    if (driver instanceof AppiumDriver) {
 
-        swipeUp(200);
-        driver.findElements(by);
-        driver.findElements(by).size();
-        int already_swiped = 0;
-        while (driver.findElements(by).size() == 0) {
+    protected static void swipeUpElement(By by, String error_message, int max_swipes) {
+//        if (driver instanceof AppiumDriver) {
 
-            if (already_swiped > max_swipes) {
-                waitForElement(by, "cannot find the element", Integer.parseInt(0 + error_message));
-                return;
+            swipeUp(200);
+            driver.findElements(by);
+            driver.findElements(by).size();
+            int already_swiped = 0;
+            while (driver.findElements(by).size() == 0) {
+
+                if (already_swiped > max_swipes) {
+                    waitForElement(by, "cannot find the element", Integer.parseInt(0 + error_message));
+                    return;
+                }
+                swipeUpQuick();
+                ++already_swiped;
             }
-            swipeUpQuick();
-            ++already_swiped;
+
         }
 
-    }
-}
 
     public static void swipeUpElementToLeft(By by, String error_message) {
-        if (driver instanceof AppiumDriver) {
+//        if (driver instanceof AppiumDriver) {
 
             WebElement element = webElementPresent(by, error_message, 300);
             int left_x = element.getLocation().getX();
@@ -135,17 +138,17 @@ protected static void swipeUpElement(By by, String error_message, int max_swipes
             int upper_y = element.getLocation().getY();
             int lower_y = left_x + element.getSize().getHeight();
             int middle_y = upper_y + lower_y / 2;
-            TouchAction action = new TouchAction(driver);
+            TouchAction action = new TouchAction((PerformsTouchActions) driver);
             action
-                    .press(right_x, middle_y)
-                    .waitAction(200)
-                    .moveTo(left_x, middle_y)
+                    .tap(PointOption.point(right_x, middle_y))
+                    .waitAction()
+                    .moveTo(PointOption.point(left_x, middle_y))
                     .release()
                     .perform();
 
 
         }
-    }
+
     public static int getAmountOfElements(By by) {
         List elements = driver.findElements(by);
         return elements.size();

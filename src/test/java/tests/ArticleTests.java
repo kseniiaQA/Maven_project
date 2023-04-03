@@ -1,80 +1,69 @@
 package tests;
-import io.appium.java_client.AppiumDriver;
-import lib.ui.mobile_web.MVArticlePageObject;
-import lib.ui.mobile_web.MvSearchPageObject;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import lib.CoreCaseTest;
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.ui.ArticlePageObject;
-import lib.ui.SearchPageObject;
+import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.BeforeTest;
-
-import static lib.ui.MainPageObject.driver;
-
-public class ArticleTests {
+import lib.CoreCaseTest;
+import lib.ui.SearchPageObject;
 
 
-    @Before
-    public void setUp() {
 
-        {
-            System.setProperty("webdriver.chrome.driver","C:\\Users\\kalekseenko\\chromedriver_win32\\chromedriver.exe");
-            WebDriver driver=new ChromeDriver();
-            driver.manage().window().maximize();
-            driver.get("https://en.m.wikipedia.org");
-
-        }
-    }
-
-    @After
-    public void teardown() {
-        driver.quit();
-    }
+@Epic("Tests for articles")
+public class ArticleTests extends CoreCaseTest {
 
     @Test
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article")})
+    @DisplayName("Compare article title with expected one")
+    @Description("description")
+    @Step("Starting testSaveArticlesToMyListDeleteAndCheckTitles")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testSaveArticlesToMyListDeleteAndCheckTitles() {
-
-        MvSearchPageObject.initSearchInput();
-        MvSearchPageObject.searchInput("Appium");
-        MvSearchPageObject.seeResultAndClick();
-        MVArticlePageObject.clickMoreOptionsButton();
-        MVArticlePageObject.addToList();
-        MVArticlePageObject.clickOnboardingButton();
-        MVArticlePageObject.clearFolderInput();
-        MVArticlePageObject.newFolderName("My folder");
-        MVArticlePageObject.saveToFolder();
-        MvSearchPageObject.initSearchInput();
-        MvSearchPageObject.searchInput("Appium");
-        MVArticlePageObject.selectAnotherArticle();
-        MVArticlePageObject.clickMoreOptionsButton();
-        MVArticlePageObject.addToList();
-        MVArticlePageObject.goToFolder();
-        MVArticlePageObject.deleteArticleFromList();
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
+        SearchPageObject.initSearchInput();
+        SearchPageObject.searchInput("Appium");
+        SearchPageObject.seeResultAndClick();
+        ArticlePageObject.clickMoreOptionsButton();
+        ArticlePageObject.addToList();
+        ArticlePageObject.clickOnboardingButton();
+        ArticlePageObject.clearFolderInput();
+        ArticlePageObject.newFolderName("My folder");
+        ArticlePageObject.saveToFolder();
+        SearchPageObject.initSearchInput();
+        SearchPageObject.searchInput("Appium");
+        ArticlePageObject.selectAnotherArticle();
+        ArticlePageObject.clickMoreOptionsButton();
+        ArticlePageObject.addToList();
+        ArticlePageObject.goToFolder();
+        ArticlePageObject.deleteArticleFromList();
         String title1 = "//*[@text='Appius Claudius Caecus']";
-        MVArticlePageObject.checkArticlePresense();
+        ArticlePageObject.checkArticlePresense();
         String title2 = "//*[@text='Appius Claudius Caecus']";
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+        ArticlePageObject.selectAnotherArticle();
+//
+//        ArticlePageObject.takeScreenshot("ArticlePage");
 
-        MVArticlePageObject.selectAnotherArticle();
 
-        Assert.assertEquals("titles are not the same", title1, title2);
+        assertEquals("titles are not the same", title1, title2);
 
     }
 
 
-//    @Test
-//    public void testAssertTitleIsPresent() {
-//        SearchPageObject searchPageObject = new SearchPageObject(driver);
-//        SearchPageObject.initSearchInput();
-//        SearchPageObject.searchInput("Appium");
-//        SearchPageObject.seeResultAndClick();
-//        SearchPageObject.checkTitlePresence();
-//
-//    }
+    @Test
+    @Features(value = {@Feature(value = "search"), @Feature(value = "Article")})
+    @DisplayName("Swipe article to the footer")
+    @Description("description")
+    @Step("Starting testAssertTitleIsPresen")
+    @Severity(value = SeverityLevel.MINOR)
+    public void testAssertTitleIsPresent() {
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        SearchPageObject.searchInput("Appium");
+        SearchPageObject.seeResultAndClick();
+        SearchPageObject.checkTitlePresence();
+
+    }
 
 }

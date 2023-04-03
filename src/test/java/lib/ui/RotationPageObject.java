@@ -5,10 +5,8 @@ import static lib.ui.MainPageObject.waitForElement;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
-
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+
 
 public class RotationPageObject extends MainPageObject  {
 
@@ -16,22 +14,20 @@ public class RotationPageObject extends MainPageObject  {
             ELEMENT = "org.wikipedia:id/view_page_title_text";
 
 
+    public RotationPageObject(AppiumDriver driver) {
+        super((AppiumDriver) driver);
+    }
 
 
-//
-//    public void rotateAndCheckRotation() {
-//        if (driver instanceof AppiumDriver) {
-//
-//            driver.rotate(ScreenOrientation.LANDSCAPE);
-//        }
+    public void rotateAndCheckRotation() {
+        if (driver instanceof AppiumDriver) {
+
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+        }
 
 
 
         String title_after_rotation = String.valueOf(waitForElement(
                 By.id( ELEMENT), "the element is not found", 10));
-
-    public RotationPageObject(ChromeDriver driver) {
-        super(driver);
     }
 }
-

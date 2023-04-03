@@ -1,15 +1,13 @@
 package lib.ui;
 
-import static lib.ui.MainPageObject.*;
 import static org.openqa.selenium.By.id;
 
 import org.openqa.selenium.By;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class SearchPageObject {
+public class SearchPageObject extends MainPageObject {
+
     private static final String
             SEARCH_INIT_ELEMENT = "//*[@text='Search Wikipedia']",
             SEARCH_INPUT = "org.wikipedia:id/search_src_text",
@@ -22,9 +20,11 @@ public class SearchPageObject {
             TITLE_PRESENCE = "org.wikipedia:id/view_page_title_text",
             ITEM_CONTAINER_PRESENCE = "org.wikipedia:id/page_list_item_container";
 
-    public SearchPageObject(ChromeDriver driver) {
-        super();
+
+    public SearchPageObject(AppiumDriver driver) {
+        super(driver);
     }
+
     public static void initSearchInput() {
         waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "cannot find the locator", 5);
     }
@@ -54,10 +54,9 @@ public class SearchPageObject {
     }
 
     public static void swipeElement() {
-//        if (driver instanceof AppiumDriver) {
-            swipeUpElement(
-                    By.xpath(SWIPE), "cannot find the element", 20);
-        }
+        swipeUpElement(
+                By.xpath(SWIPE), "cannot find the element", 20);
+    }
 
     public static void checkPresence() {
         webElementPresent(

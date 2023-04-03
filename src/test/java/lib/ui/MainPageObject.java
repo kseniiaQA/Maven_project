@@ -1,26 +1,27 @@
 package lib.ui;
-
-import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.touch.offset.PointOption;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import io.qameta.allure.Attachment;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
-
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 
 
-public class MainPageObject {
-public static ChromeDriver driver;
 
-public MainPageObject(ChromeDriver driver) {
-    MainPageObject.driver = driver;
-}
+
+public class MainPageObject {
+    protected static AppiumDriver driver;
+
+    public MainPageObject(AppiumDriver driver) {
+        MainPageObject.driver = driver;
+    }
 
     public static WebElement waitForElement(By by, String error_message, int i) {
         WebDriverWait wait = new WebDriverWait(driver, i);
@@ -89,65 +90,55 @@ public MainPageObject(ChromeDriver driver) {
     }
 
 
-    public static void swipeUp(int timeOfSwipe) {
-//        if (driver instanceof AppiumDriver) {
+    protected static void swipeUp(int timeOfSwipe) {
+        TouchAction action = new TouchAction(driver);
+        Dimension size = driver.manage().window().getSize();
+        int x = size.width / 2;
+        int start_y = (int) (size.height * 0.8);
+        int end_y = (int) (size.height * 0.2);
 
-            TouchAction action = new TouchAction((PerformsTouchActions) driver);
-            Dimension size = driver.manage().window().getSize();
-            int x = size.width / 2;
-            int start_y = (int) (size.height * 0.8);
-            int end_y = (int) (size.height * 0.2);
-          action.tap(PointOption.point(x, start_y)).waitAction().moveTo(PointOption.point(x, end_y)).release().perform();
+        action.tap(PointOption.point(x, start_y)).waitAction().moveTo(PointOption.point(x, end_y)).release().perform();
+    }
 
-        }
+    protected static void swipeUpQuick() {
+        swipeUp(200);
 
+    }
 
-    public static void swipeUpQuick() {
-//        if (driver instanceof AppiumDriver) {
+    public static void swipeUpElement(By by, String error_message, int max_swipes) {
+        swipeUp(200);
+        driver.findElements(by);
+        driver.findElements(by).size();
+        int already_swiped = 0;
+        while (driver.findElements(by).size() == 0) {
 
-            swipeUp(200);
-        }
-
-
-    protected static void swipeUpElement(By by, String error_message, int max_swipes) {
-//        if (driver instanceof AppiumDriver) {
-
-            swipeUp(200);
-            driver.findElements(by);
-            driver.findElements(by).size();
-            int already_swiped = 0;
-            while (driver.findElements(by).size() == 0) {
-
-                if (already_swiped > max_swipes) {
-                    waitForElement(by, "cannot find the element", Integer.parseInt(0 + error_message));
-                    return;
-                }
-                swipeUpQuick();
-                ++already_swiped;
+            if (already_swiped > max_swipes) {
+                waitForElement(by, "cannot find the element", Integer.parseInt(0 + error_message));
+                return;
             }
-
+            swipeUpQuick();
+            ++already_swiped;
         }
 
+    }
 
     public static void swipeUpElementToLeft(By by, String error_message) {
-//        if (driver instanceof AppiumDriver) {
-
-            WebElement element = webElementPresent(by, error_message, 300);
-            int left_x = element.getLocation().getX();
-            int right_x = left_x + element.getSize().getWidth();
-            int upper_y = element.getLocation().getY();
-            int lower_y = left_x + element.getSize().getHeight();
-            int middle_y = upper_y + lower_y / 2;
-            TouchAction action = new TouchAction((PerformsTouchActions) driver);
-            action
-                    .tap(PointOption.point(right_x, middle_y))
-                    .waitAction()
-                    .moveTo(PointOption.point(left_x, middle_y))
-                    .release()
-                    .perform();
+        WebElement element = webElementPresent(by, error_message, 300);
+        int left_x = element.getLocation().getX();
+        int right_x = left_x + element.getSize().getWidth();
+        int upper_y = element.getLocation().getY();
+        int lower_y = left_x + element.getSize().getHeight();
+        int middle_y = upper_y + lower_y / 2;
+        TouchAction action = new TouchAction(driver);
+        action
+                .tap(PointOption.point(right_x, middle_y))
+                .waitAction()
+                .moveTo(PointOption.point(left_x, middle_y))
+                .release()
+                .perform();
 
 
-        }
+    }
 
     public static int getAmountOfElements(By by) {
         List elements = driver.findElements(by);
@@ -176,6 +167,32 @@ public MainPageObject(ChromeDriver driver) {
             String message = "an element " + by.toString() + "supposed to be present";
             throw new AssertionError(message + "" + error_message);
         }
+    }
 
+
+//    public static String takeScreenshot(String name) {
+//        TakesScreenshot ts = (TakesScreenshot) this.driver;
+//        File source = ts.getScreenshotAs(OutputType.FILE);
+//        String path = System.getProperty("user.dir") + "/" + name + "_screenshot.png";
+//
+//        try {
+//            FileUtils.copyFile(source, new File(path));
+//            System.out.println("The screenshot was taken" + path);
+//        } catch (Exception e) {
+//            System.out.println("cannot take screenshot" + e.getMessage());
+//        }
+//        return path;
+//    }
+
+
+    @Attachment
+    public static byte [] screenshot(String path){
+        byte[] bytes = new byte[0];
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+        } catch (IOException e) {
+            System.out.println ("cannot get bytes from sc" + e.getMessage());
+        }
+        return bytes;
     }
 }

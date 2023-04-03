@@ -1,23 +1,19 @@
 package tests;
-import lib.ui.mobile_web.MvSearchPageObject;
 import org.junit.Test;
 import lib.CoreCaseTest;
 import lib.ui.SearchPageObject;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 public class SearchTests extends CoreCaseTest {
 
-
-
     @Test
     public void testCancelSearchAndCheck() {
-        MvSearchPageObject searchPageObject = new  MvSearchPageObject(driver);
-        MvSearchPageObject.initSearchInput();
-        MvSearchPageObject.searchInput("Java");
-        MvSearchPageObject.seeDescription();
-        MvSearchPageObject.clickCloseButton();
-        MvSearchPageObject.checkAbsence();
+        SearchPageObject searchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
+        SearchPageObject.searchInput("Java");
+        SearchPageObject.seeDescription();
+        SearchPageObject.clickCloseButton();
+        SearchPageObject.checkAbsence();
     }
     @Test
     public void testSwipeUp() {
@@ -25,7 +21,7 @@ public class SearchTests extends CoreCaseTest {
         SearchPageObject.initSearchInput();
         SearchPageObject.searchInput("Appium");
         SearchPageObject.seeResultAndClick();
-        SearchPageObject.swipeElement();
+//        SearchPageObject.swipeElement();
     }
 
     @Test

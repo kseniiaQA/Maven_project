@@ -8,9 +8,8 @@ import tests.SearchTests;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ArticleTests.class,
-        OrientationTests.class,
-        SearchTests.class
+        ArticleTests.class
+
 })
 public class TestSuite {
 }

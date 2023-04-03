@@ -1,55 +1,57 @@
 package lib;
-import lib.ui.ArticlePageObject;
-//import lib.ui.Platform;
-import lib.ui.SearchPageObject;
+import junit.framework.TestCase;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.util.Properties;
 
-public class CoreCaseTest  {
-    public ChromeDriver driver;
-    private static String URL = "http://127.0.0.1:4723/wd/hub";
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.qameta.allure.*;
+public class CoreCaseTest extends TestCase {
+    public AppiumDriver driver;
+    public static String url = "http://127.0.0.1:4723/wd/hub";
 
+  @Before
+  @Step("Run driver and session")
+    protected void setUp() throws Exception {
 
+        super.setUp();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("deviceName", "emulator-5554");
+        capabilities.setCapability("platformVersion", "11");
+        capabilities.setCapability("automationName", "Appium");
+        capabilities.setCapability("appPackage", "org.wikipedia");
+        capabilities.setCapability("appActivity", ".main.MainActivity");
+        capabilities.setCapability("app", "C:/Users/kalekseenko/JavaAppiumAutomation/apks/org.wikipedia.apk");
 
-    @Test
-    public void testSaveArticlesToMyListDeleteAndCheckTitles() {
-        SearchPageObject searchPageObject = new SearchPageObject(driver);
-        ArticlePageObject articlePageObject = new ArticlePageObject(driver);
-        SearchPageObject.initSearchInput();
-        SearchPageObject.searchInput("Appium");
-        SearchPageObject.seeResultAndClick();
-        ArticlePageObject.clickMoreOptionsButton();
-        ArticlePageObject.addToList();
-        ArticlePageObject.clickOnboardingButton();
-        ArticlePageObject.clearFolderInput();
-        ArticlePageObject.newFolderName("My folder");
-        ArticlePageObject.saveToFolder();
-        SearchPageObject.initSearchInput();
-        SearchPageObject.searchInput("Appium");
-        ArticlePageObject.selectAnotherArticle();
-        ArticlePageObject.clickMoreOptionsButton();
-        ArticlePageObject.addToList();
-        ArticlePageObject.goToFolder();
-//        ArticlePageObject.deleteArticleFromList();
-        String title1 = "//*[@text='Appius Claudius Caecus']";
-        ArticlePageObject.checkArticlePresense();
-        String title2 = "//*[@text='Appius Claudius Caecus']";
-//        driver.rotate(ScreenOrientation.LANDSCAPE);
-        ArticlePageObject.selectAnotherArticle();
-        Assert.assertEquals("titles are not the same", title1, title2);
-
+        driver = new AndroidDriver(new URL(url), capabilities);
+      this.createAllurePropertyFile();
     }
 
-//    protected void openWikiWebPageForMobileWeb(){
-//        if (Platform.getInstance().isMV()) {
-//            driver.get("https://en.m.wikipedia.org");
-//        } else {
-//            System.out.println("Method openWikiWebPageForMobileWeb() does nothing for platform " + Platform.getInstance());
-//        }
+  @After
+  @Step("Stop driver and session")
+    protected  void tearDown() throws Exception {
+        driver.quit();
+        super.tearDown();
     }
 
+    private void createAllurePropertyFile(){
+      String path = System.getProperty("allure.results.directory");
+      try {
+          Properties props = new Properties();
+                  FileOutputStream fos = new FileOutputStream(path + "/environment.properties");
+//                  props.setProperty("Environment", Platform.getInstance.getPlatformVar();
+                  props.store(fos, "comment");
+                  fos.close();
+      } catch (Exception e ) {
+          System.err.println("Android problem when writing allure properties file");
+          e.printStackTrace();
+      }
+    }
+}

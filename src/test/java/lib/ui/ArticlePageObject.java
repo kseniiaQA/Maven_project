@@ -1,12 +1,11 @@
 package lib.ui;
-
-import static lib.ui.MainPageObject.waitForElementAndClick;
 import static org.openqa.selenium.By.id;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
+import io.appium.java_client.AppiumDriver;
 
-public class ArticlePageObject {
+public class ArticlePageObject extends MainPageObject {
 
 
     private static final String
@@ -21,28 +20,33 @@ public class ArticlePageObject {
             SECOND_ARTICLE = "//*[@text='Appius Claudius Caecus']",
             FIRST_ARTICLE = "//*[@text='Appium']";
 
-    public ArticlePageObject(ChromeDriver driver) {
+
+    public ArticlePageObject(AppiumDriver driver) {
+        super(driver);
     }
 
 
+    @Step("clickMoreOptionsButton")
     public static void clickMoreOptionsButton() {
         waitForElementAndClick(
                 By.xpath(MORE_OPTION_BUTTON), "cannot find element", 5);
 
     }
-
+    @Step("add article to List")
     public static void addToList() {
         waitForElementAndClick(
                 By.xpath(ADD_TO_LIST), "cannot find element to add article to a list", 5);
-
+//screenshot(this.takeScreenshot("article title"));
     }
-
+    @Step("click onboarding button")
     public static void clickOnboardingButton() {
         waitForElementAndClick(
                 id(ONBOARDING_BUTTON), "cannot find element overlay", 5);
 
     }
 
+
+    @Step("cleans input for folder name ")
     public static void clearFolderInput() {
         MainPageObject.waitForElementAndClear(
                 id(FOLDER_NAME), "cannot find element to clear the input", 5);
@@ -50,6 +54,7 @@ public class ArticlePageObject {
     }
 
 
+    @Step("inits new fodler name ")
     public static void newFolderName(String name) {
         MainPageObject.waitForElementAndSendKeys(
                 id(FOLDER_NAME), name, "cannot find the input", 5);
@@ -57,6 +62,7 @@ public class ArticlePageObject {
     }
 
 
+    @Step("saves article to a folder ")
     public static void saveToFolder() {
 
         waitForElementAndClick(
@@ -69,6 +75,8 @@ public class ArticlePageObject {
     }
 
 
+
+    @Step("goes inside a folder ")
     public static void goToFolder() {
         waitForElementAndClick(
                 By.xpath(MY_FOLDER), "cannot find element overlay", 5);
@@ -85,16 +93,23 @@ public class ArticlePageObject {
 
     }
 
+
+    @Step("aselects another article ")
     public static void selectAnotherArticle() {
         waitForElementAndClick(
                 By.xpath(SECOND_ARTICLE), "cannot find element overlay", 5);
     }
 
+
+    @Step("deletes article form the list ")
     public static void deleteArticleFromList() {
         MainPageObject.swipeUpElementToLeft(
                 By.xpath(FIRST_ARTICLE), "cannot delete my article in My list");
+
     }
 
+
+    @Step("checks article is present in the folder")
     public static void checkArticlePresense() {
         MainPageObject.webElementPresent(
                 By.xpath(SECOND_ARTICLE), "cannot find the element", 5);

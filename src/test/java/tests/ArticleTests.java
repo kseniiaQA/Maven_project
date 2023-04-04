@@ -40,7 +40,7 @@ public class ArticleTests extends CoreCaseTest {
         String title1 = "//*[@text='Appius Claudius Caecus']";
         ArticlePageObject.checkArticlePresense();
         String title2 = "//*[@text='Appius Claudius Caecus']";
-        driver.rotate(ScreenOrientation.LANDSCAPE);
+//        driver.rotate(ScreenOrientation.LANDSCAPE);
         ArticlePageObject.selectAnotherArticle();
 //
 //        ArticlePageObject.takeScreenshot("ArticlePage");

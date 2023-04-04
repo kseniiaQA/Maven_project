@@ -1,30 +1,30 @@
-package lib.ui;
+package lib.ui.mobile;
+
+import lib.ui.MainPageObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.openqa.selenium.By.id;
 
-import org.openqa.selenium.By;
-
-import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-public class SearchPageObject extends MainPageObject {
+public class MVSearchPageObject extends MainPageObject {
 
     private static final String
-            SEARCH_INIT_ELEMENT = "//*[@text='Search Wikipedia']",
-            SEARCH_INPUT = "org.wikipedia:id/search_src_text",
-            RESULT = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.view.ViewGroup/android.support.v4.view.ViewPager/android.view.ViewGroup/android.widget.FrameLayout/android.view.View",
-            DESCRIPTION = "org.wikipedia:id/page_list_item_description",
+            SEARCH_INIT_ELEMENT = "//input[@type='search']",
+            SEARCH_INPUT = "//input.search.mw-ui-background-icon-search",
+            RESULT = "title",
+            DESCRIPTION = "div.wikidata-description",
             CLOSE_BUTTON = "org.wikipedia:id/search_close_btn",
             SWIPE = "//*[@text='View page in browser']",
             RESULT_ABSENSE = "//*[@text='No results found']",
             ITEM_DESCRIPTION_ABSENSE = "org.wikipedia:id/page_list_item_description",
-            TITLE_PRESENCE = "org.wikipedia:id/view_page_title_text",
+            TITLE_PRESENCE = "h3",
             ITEM_CONTAINER_PRESENCE = "org.wikipedia:id/page_list_item_container";
 
 
-    public SearchPageObject(RemoteWebDriver driver) {
+    public MVSearchPageObject(RemoteWebDriver driver) {
         super(driver);
     }
+
 
     public static void initSearchInput() {
         waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "cannot find the locator", 5);

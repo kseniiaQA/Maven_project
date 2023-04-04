@@ -1,28 +1,30 @@
-package lib.ui;
-import static org.openqa.selenium.By.id;
+package lib.ui.mobile;
 
 import io.qameta.allure.Step;
+import lib.ui.ArticlePageObject;
+import lib.ui.MainPageObject;
 import org.openqa.selenium.By;
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class ArticlePageObject extends MainPageObject {
+import static org.openqa.selenium.By.id;
+
+public class MVArticlePageObject extends ArticlePageObject {
+    private static final
 
 
-    private static final String
-            MORE_OPTION_BUTTON = "//android.widget.ImageView[@content-desc=\"More options\"]",
-            ADD_TO_LIST = "//*[@text='Add to reading list']",
-            ONBOARDING_BUTTON = "org.wikipedia:id/onboarding_button",
-            FOLDER_NAME = "org.wikipedia:id/text_input",
-            OK_BUTTON = "android:id/button1",
-            NAVIGATE_UP = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]",
-            MY_FOLDER = "//*[@text='My folder']",
-            MENU_BUTTON = "//android.widget.FrameLayout[@content-desc=\"My lists\"]/android.widget.ImageView",
-            SECOND_ARTICLE = "//*[@text='Appius Claudius Caecus']",
-            FIRST_ARTICLE = "//*[@text='Appium']";
+     String  MORE_OPTION_BUTTON = "//android.widget.ImageView[@content-desc=\"More options\"]",
+               ADD_TO_LIST = "a.mw-ui-button.mw-ui-quiet.mw-ui-icon.mw-ui-icon-element.mw-ui-icon-star.mw-ui-icon-wikimedia-star.mw-ui-icon-small",
+               ONBOARDING_BUTTON = "org.wikipedia:id/onboarding_button",
+               FOLDER_NAME = "org.wikipedia:id/text_input",
+               OK_BUTTON = "android:id/button1",
+               NAVIGATE_UP = "//android.widget.ImageButton[@content-desc=\"Navigate up\"]",
+               MY_FOLDER = "//*[@text='My folder']",
+               MENU_BUTTON = "//android.widget.FrameLayout[@content-desc=\"My lists\"]/android.widget.ImageView",
+               SECOND_ARTICLE = "//*[@text='Appius Claudius Caecus']",
+               FIRST_ARTICLE = "//*[@text='Appium']";
 
 
-    public ArticlePageObject(RemoteWebDriver driver) {
+    public MVArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -104,9 +106,9 @@ public class ArticlePageObject extends MainPageObject {
 
     @Step("deletes article form the list ")
     public static void deleteArticleFromList() {
-        MainPageObject.swipeUpElementToLeft(
-                By.xpath(FIRST_ARTICLE), "cannot delete my article in My list");
-
+//        MainPageObject.swipeUpElementToLeft(
+//                By.xpath(FIRST_ARTICLE), "cannot delete my article in My list");
+//сделать другой метод удаления статьи
     }
 
 
@@ -116,4 +118,5 @@ public class ArticlePageObject extends MainPageObject {
                 By.xpath(SECOND_ARTICLE), "cannot find the element", 5);
     }
 }
+
 

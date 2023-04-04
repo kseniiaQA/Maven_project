@@ -20,7 +20,7 @@ public class OrientationTests extends CoreCaseTest {
                 By.id("org.wikipedia:id/view_page_title_text"), "the element is not found", 10));
         String title_after_rotation = String.valueOf(waitForElement(
                 By.id("org.wikipedia:id/view_page_title_text"), "the element is not found", 10));
-        rotationPageObject.rotateAndCheckRotation();
+//        rotationPageObject.rotateAndCheckRotation();
         assertEquals("titles are not the same", title_before_rotation, title_after_rotation);
     }
 

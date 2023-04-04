@@ -12,12 +12,14 @@ import java.util.Properties;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
 public class CoreCaseTest extends TestCase {
-    public AppiumDriver driver;
+    protected RemoteWebDriver driver;
     public static String url = "http://127.0.0.1:4723/wd/hub";
 
-  @Before
-  @Step("Run driver and session")
+    @Before
+    @Step("Run driver and session")
     protected void setUp() throws Exception {
 
         super.setUp();
@@ -31,15 +33,31 @@ public class CoreCaseTest extends TestCase {
         capabilities.setCapability("app", "C:/Users/kalekseenko/JavaAppiumAutomation/apks/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL(url), capabilities);
-      this.createAllurePropertyFile();
+        this.createAllurePropertyFile();
+        this.openWikiWeb();
+
     }
 
-  @After
-  @Step("Stop driver and session")
-    protected  void tearDown() throws Exception {
+    @After
+    @Step("Stop driver and session")
+    protected void tearDown() throws Exception {
         driver.quit();
         super.tearDown();
     }
+
+
+
+    protected void openWikiWeb(){
+      if(Platform.getInstance().isMV){
+    driver.get("https://en.m.wikipedia.org/");
+        } else{
+          System.err.println("Android problem when writing allure properties file");
+      }
+    }
+
+
+
+
 
     private void createAllurePropertyFile(){
       String path = System.getProperty("allure.results.directory");

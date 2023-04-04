@@ -1,8 +1,10 @@
 package lib.ui;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.touch.offset.PointOption;
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
@@ -17,9 +19,9 @@ import io.appium.java_client.TouchAction;
 
 
 public class MainPageObject {
-    protected static AppiumDriver driver;
+    public static RemoteWebDriver driver;
 
-    public MainPageObject(AppiumDriver driver) {
+    public MainPageObject(RemoteWebDriver driver) {
         MainPageObject.driver = driver;
     }
 
@@ -91,7 +93,7 @@ public class MainPageObject {
 
 
     protected static void swipeUp(int timeOfSwipe) {
-        TouchAction action = new TouchAction(driver);
+        TouchAction action = new TouchAction((PerformsTouchActions) driver);
         Dimension size = driver.manage().window().getSize();
         int x = size.width / 2;
         int start_y = (int) (size.height * 0.8);
@@ -129,7 +131,7 @@ public class MainPageObject {
         int upper_y = element.getLocation().getY();
         int lower_y = left_x + element.getSize().getHeight();
         int middle_y = upper_y + lower_y / 2;
-        TouchAction action = new TouchAction(driver);
+        TouchAction action = new TouchAction((PerformsTouchActions) driver);
         action
                 .tap(PointOption.point(right_x, middle_y))
                 .waitAction()
